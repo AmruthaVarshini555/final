@@ -1,3 +1,4 @@
+//Program for contestant module
 #include<stdio.h> 
 #include<stdlib.h>
 #include<string.h>
@@ -6,36 +7,29 @@
 #include"prototype.h"
 #include <time.h>
 extern question_ans *QA_root[2] ;
-
 contestant *co_root = NULL;
-
+//Menu for the contestant
 contestant *Contestant()
 {
+	system("clear");
 	co_root = NULL;
 	char *quize_file = "updated_QA_file.txt";
 	char *quize_file_2 = "updated_QA_file_second.txt";
-	
 	if(QA_root[0] == NULL)
 	 	QA_root[0]= add_new_quiz( QA_root[0] , quize_file);
 	 if(QA_root[1] == NULL) 
-	  QA_root[1] = add_new_quiz(QA_root[1] , quize_file_2); 
-	  
-	  
+	  QA_root[1] = add_new_quiz(QA_root[1] , quize_file_2);   
 	design();
-	printf("Wellcome to Contestant \n");
+	printf("Welcome to Contestant \n");
 	design(); 
-	
 	int ch , exit_flag = 0;
 	char user_id[BUFFER_SIZE] ;
 	char pswd[BUFFER_SIZE];
-	
-	int count =0 ;
-		
-	   co_root = NULL;		
-	   co_root = registration_contestant(co_root);
+	int count =0 ;	
+	co_root = NULL;		
+	co_root = registration_contestant(co_root);
 	   if(co_root !=NULL)
-	    	printf("Contest is listed\n");
-	
+	//Selection of the operation by contestant
 	while(1)
 	{
 		design();
@@ -59,14 +53,12 @@ contestant *Contestant()
 				adding_contestant_to_file();
 				co_root = NULL;
 				co_root = registration_contestant(co_root);
-				break ;
-				
+				break;	
 			case 2: 
 				printf("enter the user-id \n");
 				while(1)
 				{
 					scanf("%s",user_id);
-					
 					if(alpha_validator(user_id))
 						break;
 					else
@@ -79,17 +71,16 @@ contestant *Contestant()
 					if(password_validation(pswd))
 						break;
 					else 
-						printf("plese enter correct format of password\n");
+						printf("please enter correct format of password\n");
 				}	
-				 play_quiz(user_id , pswd , co_root);
-					save_score_to_file(co_root);
+				play_quiz(user_id , pswd , co_root);
+				save_score_to_file(co_root);
 				break;
 			case 3: 
 				printf("enter the user-id \n");
 				while(1)
 				{
 					scanf("%s",user_id);
-					
 					if(alpha_validator(user_id))
 						break;
 					else
@@ -104,9 +95,8 @@ contestant *Contestant()
 					else 
 						printf("plese enter correct format of password\n");
 				}
-				
 				continue_quize_game(user_id , pswd ,co_root,QA_root[1]);	
-				break ;
+				break;
 			case 4: 
 				check_score_contestants(co_root);
 				break;
@@ -121,62 +111,44 @@ contestant *Contestant()
 			break;
 	}
 }
-
+//Creating list to store the contestant details
 contestant *create_list_of_contestant(contestant *source , contestant Data)
 {
 	if(source == NULL)
 	{
 		source  = (contestant *)malloc(sizeof(contestant));
-		
 		strcpy(source->user_name ,Data.user_name);
-	
 		strcpy(source->user_id , Data.user_id);
-		
 		strcpy(source->phone_num , Data.phone_num);
-		
 		strcpy(source->email_id, Data.email_id);
-		
 		strcpy(source->pswd , Data.pswd);
-		
 		source->next = NULL;
 	}
 	else 
 	{
 		contestant *p = source ;	
 		contestant *temp = (contestant *) malloc(sizeof(contestant));
-		
 		strcpy(temp->user_name ,Data.user_name);
-	
 		strcpy(temp->user_id , Data.user_id);
-		
 		strcpy(temp->phone_num , Data.phone_num);
-		
 		strcpy(temp->email_id, Data.email_id);
-		
 		strcpy(temp->pswd , Data.pswd);
-		
 		 while(p->next != NULL)
 		 {
-		 	p = p->next ;
-				 	
+		 	p = p->next;	
 		 }
 		p->next = temp ;
-		temp->next = NULL ;
-		 
+		temp->next = NULL; 
 	}
-
 	return source;	
-
 }
 
-
+//Contestant Registration
 contestant *registration_contestant(contestant *source)
 {
-	
 	char *str = "contestant_info.txt" ;
 	char buffer[QUESTION_BUFFER_SIZE];
-	contestant c_data ;
-	
+	contestant c_data;	
 	FILE *fptr = fopen(str,"r");
 	if(fptr == NULL)
 	{
@@ -187,7 +159,6 @@ contestant *registration_contestant(contestant *source)
 	{
 		while(!feof(fptr))
 		{
-		
 			if(!(fgets(buffer,QUESTION_BUFFER_SIZE,fptr)))
 			{
 				//printf("string reading is fail\n");
@@ -195,24 +166,20 @@ contestant *registration_contestant(contestant *source)
 			}
 			else 
 			{
-				
-					 	c_data = data_extraction_from_contestant_file(buffer ,  c_data);
-					 	//printf("user name %s\n",c_data.user_name);
-					 	 source = create_list_of_contestant(source , c_data);
-								
+				c_data = data_extraction_from_contestant_file(buffer ,  c_data);
+			 	//printf("user name %s\n",c_data.user_name);
+			 	 source = create_list_of_contestant(source , c_data);							
 			}
 		}
 	}
-	
 	fclose(fptr);	
-	return source;
-		
+	return source;		
 }
+//COntestant login
 contestant *user_login(char *user_id , char *pswd ,contestant *c_root )
 {
 	int flag =0;
-	contestant *p = c_root ;
-	
+	contestant *p = c_root;
 	//printf("user-id %s len %d , pswd %s , len %d \n",user_id,strlen(user_id),pswd,strlen(pswd));
 	while(p!= NULL)
 	{
@@ -222,20 +189,17 @@ contestant *user_login(char *user_id , char *pswd ,contestant *c_root )
 			if(strcmp(p->pswd ,pswd )== 0)
 			{
 				flag = 1;
-				printf("well come %s\n",p->user_name);
+				printf("welcome %s\n",p->user_name);
 				return p;
 			}
 		}
-		
 		p = p->next;
 	}
-
 	if(flag == 0)
 	{
-		printf("user name or passwors is not matching\n");
+		printf("user name or password is not matching\n");
 		return NULL;
-	}
-	
+	}	
 }
 
 int get_ans(char ch)
@@ -250,16 +214,13 @@ int get_ans(char ch)
 		return 4;
 }
 
-
+//Ading contestant to file
 void adding_contestant_to_file()
 {
 	contestant Data ;
-	
 	char buffer[30];
 	char *str = "contestant_info.txt" ;
-	
 	FILE *fptr ;
-	
 	fptr = fopen(str,"a");
 	if(fptr == NULL)
 	{
@@ -268,45 +229,36 @@ void adding_contestant_to_file()
 	}
 	else
 	{
-	
 		printf("enter the name\n");
 		getchar();
 		fgets(Data.user_name,20,stdin);
 		Data.user_name[strlen(Data.user_name)-1] = '\0';
-		
 		printf("enter user-id \n");
 		fgets(Data.user_id,20,stdin);
 		Data.user_id[strlen(Data.user_id)-1] = '\0';
-		
 		printf("enter Phone Number\n");
 		fgets(Data.phone_num , 20 , stdin);
 		Data.phone_num[strlen(Data.phone_num)-1] = '\0';
 		printf("phone number %s\n",Data.phone_num);
-		
 		printf("enter email-id\n");
 		//fgets(Data.email_id , 20 , stdin);
 		scanf("%s",Data.email_id);
 		Data.email_id[strlen(Data.email_id)] = '\0';
-		
 		printf("enter the password\n");
 		getchar();	
 		fgets(Data.pswd , 20 , stdin);
 		Data.pswd[strlen(Data.pswd)-1] = '\0';
-		
-		fprintf(fptr,"%s,%s,%s,%s,%s\n",Data.user_name ,Data.user_id ,Data.phone_num ,Data.email_id ,Data.pswd );
-		
+		fprintf(fptr,"%s,%s,%s,%s,%s\n",Data.user_name ,Data.user_id ,Data.phone_num ,Data.email_id ,Data.pswd );	
 	}
-	
 	fclose(fptr);
 }
 
-
+//Extraction of data from contestant file
 contestant data_extraction_from_contestant_file(char *str , contestant Data)
 {
 	int index = 0;
-	
 	char *piece ;
-		piece = strtok(str,",");
+		piece = strtok(str,","); //tokenizing
 		while(piece !=NULL)
 		{
 			//printf("str : %s\n",piece);
@@ -338,9 +290,9 @@ contestant data_extraction_from_contestant_file(char *str , contestant Data)
 			}
 			piece = strtok(NULL,",");			
 		}
-return Data ;	
+	return Data ;	
 }
-
+//Function to continue the quiz game
 contestant *continue_quize_game(char *user_id , char *pswd,contestant *c_root ,question_ans *QA_root)
 {
 	contestant *p = c_root ;
@@ -358,7 +310,6 @@ contestant *continue_quize_game(char *user_id , char *pswd,contestant *c_root ,q
 		return NULL;
 	}
 	user = user_login(user_id,pswd,p);
-	
 	//printf("retunr user id address %p\n",user);
 	if(user!=NULL)
 	{
@@ -369,30 +320,25 @@ contestant *continue_quize_game(char *user_id , char *pswd,contestant *c_root ,q
 			if(user->check == 1)
 			{
 				printf("You are already Played the Second round \n");
-				printf("you are socre is %d\n",user->second_socre);
-
+				printf("you are score is %d\n",user->second_socre);
 			}
 			design();
 			printf("welcome to second round %s\n",user->user_name);
 			design();
 			first_round_of_quiz_game(user , 2);
-			
-			printf("second round maraks is %d\n",user->second_socre);
+			printf("second round marks is %d\n",user->second_socre);
 		}
 		else
 		{
-			printf("you are first round marks are less than 3 so you can't procced for second round \n");
+			printf("your first round marks are less than 3 so you can't proceed for second round \n");
 			printf("please clear the first round\n");
-		}		
-		
+		}			
 	}
 	else
 		printf("please check the login credentials\n");
-		
-
-return c_root;
+	return c_root;
 }
-
+//Scoreboard of contestants
 void check_score_contestants(contestant *p)
 {
 	while(p!=NULL)
@@ -409,23 +355,17 @@ void check_score_contestants(contestant *p)
 				printf("%s is not started the second round\n",p->user_name);
 			}
 		}
-		
-		
 		printf("%s is not started the game\n",p->user_name);			
 		p = p->next ;
 	}	
 }
-
+//Saving score to file 
 void save_score_to_file(contestant *p)
 {
 	char *str = "contestant_socre_card.txt";
-	
 	char *str_co = "contestant_login_history.txt";
-	
 	FILE *fptr = fopen(str,"a");
-	
 	FILE *fptr_login =  fopen(str_co,"a");
-	
 	if(fptr == NULL || fptr_login == NULL)
 	{
 		printf("%s file opening error\n",str);	
@@ -451,12 +391,11 @@ void save_score_to_file(contestant *p)
 			p=p->next;		
 		}	
 	}
-	
 	fclose(fptr);	
 	fclose(fptr_login);
 }
 
-
+//Rules of the game
 void rules()
 {
 	printf("\n---------------------RULES----------------");
@@ -474,9 +413,7 @@ void rules()
 	printf("\n------------------ALL THE BEST-----------------");
 	printf("\nPress enter to continue..");
 	getchar();
-	exit(0);
 }
-
 
 int ans(int num)
 {
@@ -487,7 +424,6 @@ int ans(int num)
         perror("fcntl");
         return -1;
     }
-
     // set stdin to non-blocking
     flags |= O_NONBLOCK;
     if(fcntl(0, F_SETFL, flags) == -1) {
@@ -495,19 +431,15 @@ int ans(int num)
         perror("fcntl");
         return -1;
     }
-
 	char ch;
     //char st[1024] = {0}; // initialize the first character in the buffer, this is generally good practice
    // printf ("Please enter a line of text : ");
     time_t end = time(0) + 20; //5 seconds time limit.
-
     // while
     while(time(0) < end  // not timed out
         && scanf(" %c", &ch) < 1 // not read a word
         && errno == EAGAIN); // no error, but would block
-
 	//printf("str :%s\n",st);
-	
 	if(ch >= 'a' && ch < 'd')
 	{
 		if(ch == 'a')
@@ -537,34 +469,25 @@ int ans(int num)
 	}	
 	else
 		return 0;
-	
-
 }
 
-
+//Play quiz function 
 contestant *play_quiz(char *user_id , char *pswd , contestant *c_root)
 {
-
-	contestant *user = c_root ; 
-
+	contestant *user = c_root;
 	if(QA_root[0] == NULL)
 	{
 		return NULL;
-	 	printf("First Round Qustion are not avialbel\n");
-	 }
-	 	
+	 	printf("First Round Qustion are not available\n");
+	 }	
 	 if(QA_root[1] == NULL) 
-		printf("second Round Qustion are not avialbel\n");
-
+		printf("second Round Qustion are not available\n");
 	if(user_id == NULL)
 	{
 		printf("No user are found\n");
 		return NULL;
 	}
-	
-	
-	user = user_login(user_id,pswd,user);	
-	
+	user = user_login(user_id,pswd,user);
 	if(user!=NULL)
 	{
 		design();
@@ -577,8 +500,8 @@ contestant *play_quiz(char *user_id , char *pswd , contestant *c_root)
 		{
 			design();
 			design();
-			printf("CONGRATULATION %s \n",user->user_name);
-			printf("WELLCOME TO SECOND ROUND\n");
+			printf("CONGRATULATIONS %s \n",user->user_name);
+			printf("WELCOME TO SECOND ROUND\n");
 			design();
 			design();
 			//second_round_of_quiz_game(user,2);
@@ -588,31 +511,24 @@ contestant *play_quiz(char *user_id , char *pswd , contestant *c_root)
 		}	
 	}
 	else
-	printf("USER IS NOT FOUND PLEASE REGISTER \n");	
-			
+	printf("USER IS NOT FOUND PLEASE REGISTER \n");				
 }
 
-
+//First round for quiz
 void first_round_of_quiz_game(contestant *c_root , int round)
 {
 	contestant *user = c_root ;
 	question_ans *q = NULL;
-	
 	if(round == 1)
 		q = QA_root[0];
 	else if(round == 2)
 		 q = QA_root[1];
-		
 		int  count = 0;
 		char ch ;
-		
 		while(q!=NULL)
 		{
-			
 			printf("Q_n %d::",q->q_num);
 			printf("%s\n",q->question);
-			
-			
 			if(q->check_flag == 1)
 			{
 				for(int i = 0 ; i < 4 ; i++)
@@ -630,11 +546,8 @@ void first_round_of_quiz_game(contestant *c_root , int round)
 			else if(q->check_flag == 2)
 			{
 				for(int i = 0 ; i < 4 ; i++)
-					printf("%c) %d\n",65+i,q->ans_intiger[i]);
-				
-				
+					printf("%c) %d\n",65+i,q->ans_integer[i]);
 				scanf(" %c",&ch);
-				
 				if(q->ans_int == get_ans(ch))
 				{
 					printf("correct ans \n");
@@ -643,10 +556,8 @@ void first_round_of_quiz_game(contestant *c_root , int round)
 				else
 					printf("wrong ans\n");
 			}
-			
 			q = q->next;
 		}
-		
 		if(round == 1)
 		{
 			user->first_score = count ;
@@ -656,33 +567,24 @@ void first_round_of_quiz_game(contestant *c_root , int round)
 		{
 			user->second_socre = count ;
 			user->check_2 = 1;
-		}	
-			
+		}		
 }
 
-
+//Second round of quiz game
 void second_round_of_quiz_game(contestant *c_root , int round)
 {
-	
 	contestant *user = c_root ;
 	question_ans *q = NULL;
-	
 	int count ;
-	
-		 q = QA_root[1];
-		
-		while(q!=NULL)
+	q = QA_root[1];	
+	while(q!=NULL)
+	{		
+		printf("Q_n %d::",q->q_num);
+		printf("%s\n",q->question);	
+		if(q->check_flag == 1)
 		{
-			
-			printf("Q_n %d::",q->q_num);
-			printf("%s\n",q->question);
-			
-			
-			if(q->check_flag == 1)
-			{
-				for(int i = 0 ; i < 4 ; i++)
-					printf("%c) %s\n",65+i,q->ans_string[i]);
-
+			for(int i = 0 ; i < 4 ; i++)
+				printf("%c) %s\n",65+i,q->ans_string[i]);
 				if(q->ans_int == ans(1))
 				{
 					printf("correct ans \n");
@@ -695,10 +597,7 @@ void second_round_of_quiz_game(contestant *c_root , int round)
 			{
 				for(int i = 0 ; i < 4 ; i++)
 					printf("%c) %d\n",65+i,q->ans_intiger[i]);
-				
-				
 				//scanf(" %c",&ch);
-				
 				if(q->ans_int == ans(1))
 				{
 					printf("correct ans \n");
@@ -707,10 +606,8 @@ void second_round_of_quiz_game(contestant *c_root , int round)
 				else
 					printf("wrong ans\n");
 			}
-			
 			q = q->next;
 		}
-		
 			user->second_socre = count ;
 			user->check_2 = 1;		
 }
