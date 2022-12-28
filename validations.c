@@ -1,34 +1,15 @@
-
+//Program for validations
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
 #include <ctype.h>
-
-
-int bank_id_validation(long int num)
-{
-	int count = 0 ;
-	
-	while(num>0)
-	{
-		num /=10;
-		count++;
-	}
-	if(count ==10)
-		return 1;
-	else 
-		return 0;
-}
-int intiger_validation(char *str)
+//integer validations
+int integer_validation(char *str)
 {
 	long int num ;
-
 	int len =0 , count = 0;
-	
 	num = atoi(str);
-	
 	len = strlen(str);
-	
 	//printf("num : %d and len : %d\n",num,len);
 	if(num <= 0)
 	{
@@ -37,22 +18,18 @@ int intiger_validation(char *str)
 	else
 	{	
 		do {
-		
 			num /= 10;
-			++count;
-			
+			++count;	
 		  }while(num != 0);
-		  
 		  if(len == count)
 		  	return 0;
 		  else 
 		  	return 1;	
         }
 }
-
+//name validation
 int alpha_validator(char *s)
 {
-
         //validation for alphabets
         for(char *p=s;*p!='\0';p++)
         {
@@ -68,29 +45,12 @@ int alpha_validator(char *s)
         return 1;
 }
 
-
-
-int gender_validator(char ch)
-{
-	if(ch == 'm' || ch == 'f' || ch == 'M' || ch == 'F' )
-		return 1;
-	else 
-		return 0;
-}
-
 int phone_validation(char *str)
 {
 	
 	long int num ;
-
 	int len =0 , count = 0;
-	
 	len = strlen(str);
-	
-	
-	
-	
-	
 	if(num <= 0 || len < 10 || len > 10)
 	{
 		return 0;
@@ -99,12 +59,10 @@ int phone_validation(char *str)
 	{
 		num = atoi(str);	
 		do {
-		
 			num /= 10;
 			++count;
 			
 		  }while(num != 0);
-		  
 		  if(len == count)
 		  	return 1;
 		  else 
@@ -112,23 +70,11 @@ int phone_validation(char *str)
         }	
 }
 
-
-int point_validation(char str)
-{
-	
-	if(str =='A' ||str =='B'||str == 'C' ||str == 'D'||str=='D' ||str== 'E')
-		return 1;
-	else 
-	 return 0;
-	
-}
-
+//Password validation
 int password_validation(char *str)
 {
 	char *ptr = str ;
-	
 	int c_count = 0 , s_count = 0 , i_count = 0;
-	
 	while(*ptr !='\0')
 	{
 		if(*ptr >= 'A' && *ptr <= 'Z')	
@@ -146,26 +92,18 @@ int password_validation(char *str)
 			i_count = 1;
 			//printf("num\n");
 		}
-		else 
-		{
-		
-		}			
-	
-		
+
 		ptr++;
 	}
-	
 	if(c_count &&s_count &&i_count )
 	return 1;
 	else 
 	return 0;
 }
-
+//email validation
 int email_validation(char *ptr)
 {
-
 	int c_count = 0 , s_count = 0 , i_count = 0 , n_count = 0;
-	
 	while(*ptr !='\0')
 	{
 		if(*ptr >= 'A' && *ptr <= 'Z')	
@@ -187,15 +125,12 @@ int email_validation(char *ptr)
 		{
 			n_count = 1;		
 		}
-		
 		ptr++;
 	}
-	
 	if(n_count &&i_count )
 	return 1;
 	else 
 	return 0;
-
 }
 
 
