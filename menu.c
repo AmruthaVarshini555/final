@@ -1,39 +1,36 @@
-
+//Mainmenu program
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
-#include"prototype.h"
-
+#include"header.h"
+//Function to give design to the project
 void design()
 {
 	for(int i = 0 ; i <30 ; i++)
 		printf("*");
-	
 	printf("\n");
 }
+//Mainmenu of the project
 int main_menu()
 {
-	
+	system("clear");
 	int ch , admin_pswd_flag = 0;
 	char user[20];
 	char password[20];
 	char temp[15];
 	admin_data admin_root ;
-	
 	while(1)
 	{
 		printf("1) Admin\n");
 		printf("2) Coordinator\n");
 		printf("3) Contestant\n");
-		
+		printf("0) Exit\n");
 		//scanf("%d",&ch);
 		ch = int_ans_choice(1,3);
 		switch(ch)
 		{
 			case 1: 
 				admin_root = read_admin_file(admin_root);
-				
-				
 					printf("enter the usr name \n");
 					while(1)
 					{
@@ -74,7 +71,6 @@ int main_menu()
 							break;
 						}
 					}
-					
 				break ;
 			case 2:
 				//printf("coordinator");
@@ -83,24 +79,22 @@ int main_menu()
 			case 3: 
 				Contestant();
 				break ;
-				
-				
-		}
-		
-	}	
-		
+			case 0:
+				exit(0);
+				break;
+			default: printf("invalid choice");
+		}	
+	}			
 }
-
+//Reading data of admin from file
 admin_data read_admin_file(admin_data source)
 {
 	char *str = "admin_info.txt";
-	
 	FILE *fptr = NULL ;
 	char *piece ;
 	char buffer[QUESTION_BUFFER_SIZE];
 	int index = 1;
 	fptr = fopen(str,"r");
-	
 	if(fptr == NULL)
 	{
 		printf("%s file opening error\n",str);
@@ -109,7 +103,6 @@ admin_data read_admin_file(admin_data source)
 	{
 		while(!feof(fptr))
 		{
-		
 			if(!(fgets(buffer,QUESTION_BUFFER_SIZE,fptr)))
 			{
 				//printf("string reading is fail\n");
@@ -120,7 +113,6 @@ admin_data read_admin_file(admin_data source)
 				piece = strtok(buffer,",");
 				while(piece !=NULL)
 				{
-					
 					//printf("str :%s\n",piece);
 					if(index == 1)
 					{
@@ -139,7 +131,7 @@ admin_data read_admin_file(admin_data source)
 			
 		}
 	}
-return source ;	
+	return source ;	
 }	
 
 /*int get_int_ans(int n , int m)
