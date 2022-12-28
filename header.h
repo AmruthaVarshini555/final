@@ -3,6 +3,7 @@
 #define BUFFER_SIZE 20
 #define PSWD_SIZE 8
 #define QUESTION_BUFFER_SIZE 200
+#define EXIT 0
 typedef struct coordinator
 {
         char name[BUFFER_SIZE];
@@ -37,16 +38,13 @@ typedef struct contestant
 	int second_socre ;
 	int check ;
 	int check_2 ;
-	
 	struct contestant *next ;
 }contestant;
 
 typedef struct admin_data
 {
-	
 	char user_name[BUFFER_SIZE];
-	char pswd[BUFFER_SIZE];
-	
+	char pswd[BUFFER_SIZE];	
 	struct admin_data *next ;
 }admin_data;
 
