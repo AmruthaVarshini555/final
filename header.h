@@ -1,3 +1,4 @@
+//Header file of project
 #include<stdio.h>
 #define BUFFER_SIZE 20
 #define PSWD_SIZE 8
@@ -49,7 +50,6 @@ typedef struct admin_data
 	struct admin_data *next ;
 }admin_data;
 
-
 void design();
 void admin();
 void Coordinator() ;
@@ -58,17 +58,11 @@ contestant* play_quiz(char * , char * ,contestant * );
 void save_score_to_file(contestant *);
 void check_score_contestants(contestant *);
 contestant *continue_quize_game(char * , char *,contestant *,question_ans *);
-
-
 coordinator *new_coordinator();
 coordinator *update_coordinator(char *,coordinator *);
-
 void adding_new_coordinator_to_file();
-
 coordinator *delete_coordinator(char *,coordinator *);
 void display_coordinator();
-
-
 void view_contestant();
 
 question_ans *add_new_quiz(question_ans *,char *str); 
@@ -78,29 +72,20 @@ void save_QA_info_into_file(question_ans * , char *str);
 
 
 contestant *registration_contestant(contestant *);
-
 int main_menu();
 
 admin_data read_admin_file(admin_data );
-
 coordinator data_extraction_from_cordinator_file(char * ,  coordinator);
-
 coordinator *create_list_for_cordinator(coordinator * ,coordinator);
-
 void save_coordinator_data_into_file(coordinator *);
-
 void adding_contestant_to_file();
-
 contestant data_extraction_from_contestant_file(char * , contestant);
-
 contestant *delete_contestant(contestant * , char *);
-
 void save_contestant_data_into_file(contestant *);
-
 void adding_question_to_file(char *);
 
 question_ans *delete_question(question_ans * , int);
-int intiger_validation(char *);
+int integer_validation(char *);
 int alpha_validator(char *);
 int password_validation(char *);
 int phone_validation(char *);
@@ -109,9 +94,8 @@ int email_validation(char *);
 void rules();
 
 int ans(int );
-
 int int_ans_choice(int  , int );
-int intiger_validation(char *);
+
 
 void first_round_of_quiz_game(contestant *,int);
 
